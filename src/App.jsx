@@ -1,5 +1,4 @@
 import React from 'react';
-import './app.css';
 import Navigation from './Navigation'
 import Blackscreen from './Blackscreen'
 import Card from './Card'
