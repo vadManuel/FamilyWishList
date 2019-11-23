@@ -180,7 +180,7 @@ class App extends React.Component {
                                     {/* Body of card (title and description)*/}
                                     <div className='d-flex flex-column justify-content-center px-1 pt-1 w-100 h-auto'>
                                         {/* Title of card */}
-                                        <div className='d-flex align-items-center'>
+                                        <div className=''>
                                             <h4>{
                                                 wish[1].link !== '' ?
                                                     <NavLink href={wish[1].link} className='p-0 m-0'>
@@ -192,9 +192,7 @@ class App extends React.Component {
                                             }</h4>
                                         </div>
                                         {/* Description of card */}
-                                        {wish[1].description !== '' ? <div className='d-flex align-items-center'>
-                                            <p className='text-secondary'>{wish[1].description}</p>
-                                        </div> : null}
+                                        {wish[1].description !== '' ? <p className='text-secondary' style={{verticalAlign:'middle'}}>{wish[1].description}</p> : null}
                                     </div>
                                     {/* Erase card */}
                                     <div className='ml-auto p-0 m-0 h-auto d-flex flex-row align-items-center' style={{background:'rgb(179, 20, 22)', borderRadius:'0 4px 4px 0', }}>
