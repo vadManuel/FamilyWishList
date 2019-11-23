@@ -20,6 +20,7 @@ import {
     Container
 } from 'reactstrap';
 import { addWish, createWisher } from './firebase/functions'
+import logo from './images/logo.png'
 
 export class Navigation extends React.Component {
     constructor(props) {
@@ -36,7 +37,7 @@ export class Navigation extends React.Component {
             wishers: props.wishers,
             badNewPerson: false,
             isNavOpen: false,
-            isModalOpen: false
+            isModalOpen: true
         }
 
         this.handleSubmission = this.handleSubmission.bind(this)
@@ -59,11 +60,15 @@ export class Navigation extends React.Component {
             wishers
         } = this.state
 
-        if (title !== '' && (selectedPerson !== '' || newPerson !== '')) {
-            const tempDescription = (description ? description : '')
-            const tempLink = (link ? 'http://'+link : '')
+        if ((
+                title !== '' && title !== undefined && title !== null)
+                && ((selectedPerson !== '' && selectedPerson !== undefined && selectedPerson !== null)
+                || (newPerson !== '' && newPerson !== undefined && newPerson !== null))
+            ) {
+            const tempDescription = (description === undefined || description === null ? '' : description)
+            const tempLink = (link === undefined || link === null ? '' : 'http://'+link)
             
-            if (newPerson !== '') {
+            if (newPerson !== '' && newPerson !== undefined && newPerson !== null) {
                 createWisher(newPerson, title, tempDescription, tempLink)
                 let tempArr = [newPerson]
                 for (let i = 0; i < wishers.length; i++) {
@@ -107,10 +112,10 @@ export class Navigation extends React.Component {
         } else {
             let badTitle = false
             let badNewPerson = false
-            if (title === '') {
+            if (title === '' || title === undefined || title == null) {
                 badTitle = true
             }
-            if (selectedPerson === '') {
+            if (selectedPerson === '' || selectedPerson === undefined || selectedPerson == null) {
                 badNewPerson = true
             }
             this.setState({
@@ -161,48 +166,63 @@ export class Navigation extends React.Component {
             userInput,
             isNavOpen,
             isModalOpen,
-            badNewPerson,
+            // badNewPerson,
             badTitle,
             wishers
         } = this.state
 
         return (
-            <Navbar color='light' light expand='md' className='sticky-top'>
+            // <Navbar color='light' light expand='md' className='sticky-top'>
+            <Navbar expand='md' className='sticky-top nav-style' dark>
                 <Container className='align-items-center'>
-                <NavbarBrand href='/'>2019 Wish List</NavbarBrand>
+                {/* <NavbarBrand href='/'>2019 Wish List</NavbarBrand> */}
+                <NavbarBrand>
+                    <img style={{ height: '4rem' }} src={logo} alt={'>:3'} />
+                </NavbarBrand>
                 <NavbarToggler onClick={this.toggleNav} />
                 <Collapse isOpen={isNavOpen} navbar>
                     <Nav style={{minWidth:'300px'}} className='ml-auto pt-3 pt-md-0 pb-1' navbar>
                         <Form className='w-100'>
-                            <Input className='w-100' type='select' name='select' value={userInput.selectedPerson} onChange={this.handleSelectedPerson}>
+                            <Input className='w-100 d-none d-md-block' type='select' name='select' value={userInput.selectedPerson} onChange={event => {
+                                this.handleSelectedPerson(event)
+                            }}>
+                                {wishers.map((wisher, key) => {
+                                    return <option value={wisher} key={`wishers-nav-${(key+1)}`}>{wisher}</option>
+                                })}
+                            </Input>
+                            <Input className='w-100 d-block d-md-none' type='select' name='select' value={userInput.selectedPerson} onChange={event => {
+                                this.handleSelectedPerson(event)
+                                this.toggleNav()
+                            }}>
                                 {wishers.map((wisher, key) => {
                                     return <option value={wisher} key={`wishers-nav-${(key+1)}`}>{wisher}</option>
                                 })}
                             </Input>
                         </Form>
                         <div className='mx-0 mx-md-2 my-2 my-md-0'></div>
-                        <Button className='w-100 d-none d-md-block' onClick={this.toggleModal}>Add a Wish &#10010;</Button>
-                        <Button className='w-100 d-block d-md-none' onClick={() => {
+                        <Button className='w-100 d-none d-md-block border-0' style={{background:'rgb(179, 20, 22)'}} onClick={this.toggleModal}>Add a Wish &#10010;</Button>
+                        <Button className='w-100 d-block d-md-none border-0' style={{background:'rgb(179, 20, 22)'}} onClick={() => {
                             this.toggleModal()
                             this.toggleNav()
                         }}>Add a Wish &#10010;</Button>
                     </Nav>
                 </Collapse>
-                <Modal isOpen={isModalOpen} modalTransition={{ timeout: 250 }} backdropTransition={{ timeout: 250 }} toggle={this.toggleModal}>
-                    <ModalHeader toggle={this.toggleModal}>Wishy wish wash</ModalHeader>
+                <Modal style={{background:'rgb(235,236,240)', borderRadius:'4px', border:'none'}} isOpen={isModalOpen} modalTransition={{ timeout: 250 }} backdropTransition={{ timeout: 250 }} toggle={this.toggleModal}>
+                    <ModalHeader toggle={this.toggleModal}>Wishy Wish Wash</ModalHeader>
                     <ModalBody>
                         <Form onSubmit={this.handleSubmission}>
                             <Row>
-                                <Col xs='12' md='4'>
+                                {/* <Col xs='12' md='4'> */}
+                                <Col xs='12'>
                                     <Input className='mb-2' type='select' name='select' value={userInput.selectedPerson} onChange={this.handleSelectedPerson}>
                                         {wishers.map((wisher, key) => {
                                             return <option value={wisher} key={`wishers-modal-${(key+1)}`}>{wisher}</option>
                                         })}
                                     </Input>
                                 </Col>
-                                <Col xs='12' md='8'>
+                                {/* <Col xs='12' md='8'>
                                     <Input invalid={badNewPerson ? true : false} className='mb-2' value={userInput.newPerson} onChange={this.handleUserInput} type='text' name='newPerson' placeholder={badNewPerson ? 'my guy type in your name' : 'new wisher name'} />
-                                </Col>
+                                </Col> */}
                             </Row>
                             <Input invalid={badTitle ? true : false} value={userInput.title} onChange={this.handleUserInput} type='text' name='title' placeholder={badTitle ? 'must enter your wish' : 'your wish'} />
                             <Input value={userInput.description} onChange={this.handleUserInput} className='my-2' type='text' name='description' placeholder='description' />
@@ -216,9 +236,10 @@ export class Navigation extends React.Component {
                         </Form>
                     </ModalBody>
                     <ModalFooter className='d-flex flex-column flex-md-row justify-content-center align-items-center'>
-                        <Button className='w-100 m-0' color='secondary' onClick={this.toggleModal}>Cancel</Button>
+                        <Button className='w-100 m-0 border-0' color='secondary' onClick={this.toggleModal}>Cancel</Button>
                         <div className='mx-0 mx-md-2 my-1 my-md-0'></div>
-                        <Button className='w-100 m-0' color='primary' onClick={this.handleSubmission}>Add your Wish</Button>
+                        {/* <Button className='w-100 m-0' style={{background:'rgb(13,31,65)'}} onClick={this.handleSubmission}>Add your Wish</Button> */}
+                        <Button className='w-100 m-0 border-0' style={{background:'rgb(179, 20, 22)'}} onClick={this.handleSubmission}>Add your Wish</Button>
                     </ModalFooter>
                 </Modal>
                 </Container>

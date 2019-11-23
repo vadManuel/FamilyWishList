@@ -2,3 +2,19 @@
     margin: 0;
     padding: 0;
 }
+
+.all {
+    /* background: rgb(253, 250, 234); */
+    background: url(./images/background.jpg) no-repeat center center fixed;
+    background-size: cover;
+}
+
+.card-thing {
+    box-shadow: 0 10px 20px 5px rgba(0,0,0,.1);
+}
+
+.nav-style {
+    /* background: rgba(13,31,65,.95); */
+    background: rgba(13,31,65,.7);
+    box-shadow: 0 10px 20px 5px rgba(0,0,0,.05);
+}

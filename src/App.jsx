@@ -15,8 +15,8 @@ import {
 } from 'reactstrap'
 import { db } from './firebase/Firebase'
 
-import grayGift from './images/gray_gift.png'
-import redGift from './images/red_gift.png'
+import uncheckedGift from './images/white_gift.png'
+import checkedGift from './images/red_gift.png'
 import popOutLink from './images/bluePopOutLink.png'
 
 class App extends React.Component {
@@ -161,31 +161,29 @@ class App extends React.Component {
             <Modal isOpen={isModalOpen} modalTransition={{ timeout: 250 }} backdropTransition={{ timeout: 250 }} toggle={this.toggleModal}>
                 <ModalHeader toggle={this.toggleModal}>Please don't erase me <span role='img' aria-label='sad-face-emoji'>🥺🥺</span></ModalHeader>
                 <ModalFooter className='d-flex flex-column flex-md-row justify-content-center align-items-center'>
-                    <Button className='w-100 m-0' color='danger' onClick={() => {
+                    <Button className='w-100 m-0 border-0' style={{background:'rgb(179, 20, 22)'}} onClick={() => {
                         this.handleRemove(currDeleteKey)
                         this.toggleModal()
                     }}>I don't even know you...</Button>
                     <div className='mx-0 mx-md-2 my-1 my-md-0'></div>
-                    <Button className='w-100 m-0' color='primary' onClick={this.toggleModal}>What! No, I'm sorry!</Button>
+                    <Button className='w-100 m-0 border-0' color='primary' onClick={this.toggleModal}>What! No, I'm sorry!</Button>
                 </ModalFooter>
             </Modal>
         )
 
         const Stuff = () => (
             <Container>
-                <Row>
-                    {(wishes.length === 0) ? (<Alert color='light' className='w-100 mt-4 text-center border-0'>So sad! No wishes here :(</Alert>) : wishes.map((wish, key) => 
-                        <Col key={`card-${key+1}-${Date.now()}`} xs='12' md='6' className='mb-2 mb-md-4'>
-                            <div style={{ borderRadius:'4px', margin:'5px'}} className='mx-0 p-1 bg-light h-100'>
-                                <div className='d-flex flex-row w-100'>
+                <Row className='mt-2 mb-5'>
+                    {(wishes.length === 0) ? (<Alert style={{background:'transparent'}} className='w-100 text-white mt-4 text-center border-0'>So sad! No wishes here :(</Alert>) : wishes.map((wish, key) => 
+                        <Col key={`card-${key+1}-${Date.now()}`} xs='12' md='6' className=''>
+                            <div style={{ borderRadius:'4px', background:'rgb(235,236,240)'}} className='card-thing mt-4 mt-md-3 mx-0 d-flex flex-column'>
+                                <div className='d-flex flex-row w-100 h-100'>
                                     {/* Gift checkbox */}
-                                    <div className='px-1 pt-1'>
-                                        <div onClick={() => this.handleCheckbox(key)}>
-                                        <img style={{ height: '30px' }} src={wish[1].checked ? redGift : grayGift} alt={'>:3'} />
-                                        </div>
+                                    <div className='mr-1 d-flex align-items-center justify-content-center p-2 h-auto' style={{ background:'rgb(13,31,65)', borderRadius:'4px 0 0 4px' }} onClick={() => this.handleCheckbox(key)}>
+                                        <img className='align-self-center' style={{ height: '2.5rem' }} src={wish[1].checked ? checkedGift : uncheckedGift} alt={'>:3'} />
                                     </div>
                                     {/* Body of card (title and description)*/}
-                                    <div className='d-flex flex-column px-1 pt-1 w-100'>
+                                    <div className='d-flex flex-column justify-content-center px-1 pt-1 w-100 h-auto'>
                                         {/* Title of card */}
                                         <div className='d-flex align-items-center'>
                                             <h4>{
@@ -199,15 +197,15 @@ class App extends React.Component {
                                             }</h4>
                                         </div>
                                         {/* Description of card */}
-                                        {wish[1].description !== '' ? <div>
+                                        {wish[1].description !== '' ? <div className='d-flex align-items-center'>
                                             <p className='text-secondary'>{wish[1].description}</p>
                                         </div> : null}
                                     </div>
                                     {/* Erase card */}
-                                    <div className='px-1 pt-1 ml-auto'>
-                                        <Button close style={{ marginTop:'2px' }} onClick={() => {
+                                    <div className='ml-auto p-0 m-0 h-auto d-flex flex-row align-items-center' style={{background:'rgb(179, 20, 22)', borderRadius:'0 4px 4px 0', }}>
+                                        <Button className='border-0 m-0 py-1 px-2' style={{background:'transparent'}} onClick={() => {
                                             this.toggleModal(key)
-                                        }}/>
+                                        }}><span style={{fontSize: '2rem', fontWeight:'bold', color:'rgb(235,236,240)'}}>&#215;</span></Button>
                                     </div>
                                 </div>
                             </div>
@@ -217,12 +215,14 @@ class App extends React.Component {
             </Container>
         )
 
+        document.body.classList.add('all')
+
         return (
             <div>
                 { isBlackscreen ? <Blackscreen /> : null }
                 { isLoading ? <Card /> :
                 <div>
-                    <Navigation wishers={wishers} changeSelectedWisher={this.changeSelectedWisher}/>
+                    <Navigation wishers={wishers} changeSelectedWisher={this.changeSelectedWisher} />
                     <WarningModal />
                     <Stuff />
                 </div>
