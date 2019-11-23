@@ -37,7 +37,7 @@ export class Navigation extends React.Component {
             wishers: props.wishers,
             badNewPerson: false,
             isNavOpen: false,
-            isModalOpen: true
+            isModalOpen: false
         }
 
         this.handleSubmission = this.handleSubmission.bind(this)
