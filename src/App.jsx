@@ -182,7 +182,7 @@ class App extends React.Component {
                                         {/* Title of card */}
                                         <div className=''>
                                             <h4>{
-                                                wish[1].link !== '' ?
+                                                (wish[1].link !== '' && wish[1].link !== undefined && wish[1].link !== null) ?
                                                     <NavLink href={wish[1].link} className='p-0 m-0'>
                                                         {wish[1].title}
                                                         <img style={{ marginLeft:'4px', height: '11px' }} src={popOutLink} alt={'>:3'} />
@@ -192,7 +192,7 @@ class App extends React.Component {
                                             }</h4>
                                         </div>
                                         {/* Description of card */}
-                                        {wish[1].description !== '' ? <p className='text-secondary' style={{verticalAlign:'middle'}}>{wish[1].description}</p> : null}
+                                        {(wish[1].description !== '' && wish[1].description !== undefined && wish[1].description !== null) ? <p className='text-secondary' style={{verticalAlign:'middle'}}>{wish[1].description}</p> : null}
                                     </div>
                                     {/* Erase card */}
                                     <div className='ml-auto p-0 m-0 h-auto d-flex flex-row align-items-center' style={{background:'rgb(179, 20, 22)', borderRadius:'0 4px 4px 0', }}>

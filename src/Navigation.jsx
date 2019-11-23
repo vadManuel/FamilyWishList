@@ -65,8 +65,8 @@ export class Navigation extends React.Component {
                 && ((selectedPerson !== '' && selectedPerson !== undefined && selectedPerson !== null)
                 || (newPerson !== '' && newPerson !== undefined && newPerson !== null))
             ) {
-            const tempDescription = (description === undefined || description === null ? '' : description)
-            const tempLink = (link === undefined || link === null ? '' : 'http://'+link)
+            const tempDescription = ((description === '' || description === undefined || description === null) ? '' : description)
+            const tempLink = ((link === '' || link === undefined || link === null) ? '' : 'http://'+link)
             
             if (newPerson !== '' && newPerson !== undefined && newPerson !== null) {
                 createWisher(newPerson, title, tempDescription, tempLink)
