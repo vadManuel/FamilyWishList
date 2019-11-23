@@ -18,3 +18,13 @@
     background: rgba(13,31,65,.7);
     box-shadow: 0 10px 20px 5px rgba(0,0,0,.05);
 }
+
+.do-magic-thing {
+    animation: magicThing .3s ease-in-out 0;
+    animation-fill-mode: forwards;
+}
+
+@keyframes magicThing {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}

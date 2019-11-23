@@ -41,11 +41,13 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        const changeLoadingState = () => {
-            this.setState({ isLoading: false })
+        const changeLoadingState = (finishedAnimation, finishedLoading) => {
+            if (finishedAnimation && finishedLoading) {
+                this.setState({ isLoading: false })
+            }
         }
         const changeBlackscreenState = () => {
-            this.setState({ isBlackscreen: !this.state.isBlackscreen })
+            this.setState({ isBlackscreen: true })
         }
 
         let finishedLoading = false
@@ -54,13 +56,8 @@ class App extends React.Component {
             changeBlackscreenState()
         }, 4000)
         setTimeout(() => {
-            changeBlackscreenState()
-        }, 5600)
-        setTimeout(() => {
-            if (finishedLoading) {
-                changeLoadingState()
-            }
             finishedAnimation = true
+            changeLoadingState(finishedAnimation, finishedLoading)
         }, 4500)
         db.collection('wishers').onSnapshot(snapshot => {
             let newWishers = []
@@ -82,9 +79,7 @@ class App extends React.Component {
                     })
     
                     finishedLoading = true
-                    if (finishedAnimation) {
-                        changeLoadingState()
-                    }
+                    changeLoadingState(finishedAnimation, finishedLoading)
                 })
             }
             finishedLoading = true
@@ -175,7 +170,7 @@ class App extends React.Component {
             <Container>
                 <Row className='mt-2 mb-5'>
                     {(wishes.length === 0) ? (<Alert style={{background:'transparent'}} className='w-100 text-white mt-4 text-center border-0'>So sad! No wishes here :(</Alert>) : wishes.map((wish, key) => 
-                        <Col key={`card-${key+1}-${Date.now()}`} xs='12' md='6' className=''>
+                        <Col key={`card-${key+1}`} xs='12' md='6' className='do-magic-thing'>
                             <div style={{ borderRadius:'4px', background:'rgb(235,236,240)'}} className='card-thing mt-4 mt-md-3 mx-0 d-flex flex-column'>
                                 <div className='d-flex flex-row w-100 h-100'>
                                     {/* Gift checkbox */}
