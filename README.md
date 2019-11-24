@@ -1,3 +1,5 @@
+## In use for my family's Christmas Wish List, so I wont post the link.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
