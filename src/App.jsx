@@ -184,11 +184,12 @@ class App extends React.Component {
                                             <h4>{
                                                 (wish[1].link !== '' && wish[1].link !== undefined && wish[1].link !== null) ?
                                                     <NavLink href={wish[1].link} className='p-0 m-0'>
-                                                        {wish[1].title}
+                                                        {decodeURIComponent(wish[1].title.replace('%2E','.'))}
                                                         <img style={{ marginLeft:'4px', height: '11px' }} src={popOutLink} alt={'>:3'} />
                                                     </NavLink>
                                                 :
-                                                wish[1].title
+                                                decodeURIComponent(wish[1].title.replace('%2E','.'))
+                                                // wish[1].title
                                             }</h4>
                                         </div>
                                         {/* Description of card */}

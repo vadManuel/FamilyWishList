@@ -67,9 +67,10 @@ export class Navigation extends React.Component {
             ) {
             const tempDescription = ((description === '' || description === undefined || description === null) ? '' : description)
             const tempLink = ((link === '' || link === undefined || link === null) ? '' : 'http://'+link)
+            let tempTitle = encodeURIComponent(title).replace(/\./g, '%2E')
             
             if (newPerson !== '' && newPerson !== undefined && newPerson !== null) {
-                createWisher(newPerson, title, tempDescription, tempLink)
+                createWisher(newPerson, tempTitle, tempDescription, tempLink)
                 let tempArr = [newPerson]
                 for (let i = 0; i < wishers.length; i++) {
                     if (wishers[i] !== newPerson) {
@@ -88,7 +89,7 @@ export class Navigation extends React.Component {
                 })
                 this.props.changeSelectedWisher(newPerson)
             } else {
-                addWish(selectedPerson, title, tempDescription, tempLink)
+                addWish(selectedPerson, tempTitle, tempDescription, tempLink)
                 let tempArr = [selectedPerson]
                 for (let i = 0; i < wishers.length; i++) {
                     if (wishers[i] !== selectedPerson) {
